@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Natasha Niranjan | Data & Business Analytics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background: #f9fafb;
+      color: #111827;
+      line-height: 1.6;
+    }
+    header {
+      background: linear-gradient(135deg, #111827, #1f2933);
+      color: white;
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+    header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    header p { font-size: 1.1rem; max-width: 700px; margin: auto; }
+    nav {
+      background: white;
+      position: sticky;
+      top: 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      z-index: 10;
+    }
+    nav ul {
+      display: flex;
+      justify-content: center;
+      list-style: none;
+      padding: 0.75rem;
+      margin: 0;
+      gap: 2rem;
+    }
+    nav a { text-decoration: none; color: #1f2933; font-weight: 500; }
+    nav a:hover { color: #2563eb; }
+    section {
+      max-width: 900px;
+      margin: auto;
+      padding: 3rem 2rem;
+    }
+    h2 { font-size: 1.8rem; margin-bottom: 1rem; }
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+    footer {
+      background: #111827;
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      margin-top: 3rem;
+    }
+    footer a { color: #93c5fd; text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Natasha Niranjan</h1>
+  <p>Business Analytics Graduate Student at Carnegie Mellon | Data Analyst | AI & Decision Science Enthusiast</p>
+</header>
+
+<nav>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section id="about">
+  <h2>About Me</h2>
+  <div class="card">
+    <p>
+      I am a Master of Science in Business Analytics student at Carnegie Mellon University’s Tepper School of Business with a background in computer science and professional experience in data analytics and consulting. My interests lie at the intersection of analytics, AI-driven decision-making, and business strategy. I enjoy translating complex data into actionable insights that improve organizational performance and human decision quality.
+    </p>
+  </div>
+</section>
+
+<section id="education">
+  <h2>Education</h2>
+  <div class="card">
+    <h3>Carnegie Mellon University – Tepper School of Business</h3>
+    <p><strong>MS in Business Analytics</strong> | Expected May 2026</p>
+    <p>Relevant Coursework: Probability and Statistics, Data Visualization, Modern Data Management, Machine Learning, Optimization for Prescriptive Analytics</p>
+  </div>
+  <div class="card">
+    <h3>JSS Science & Technology University</h3>
+    <p><strong>Bachelor of Engineering in Computer Science</strong> | July 2022</p>
+    <p>GPA: 3.5 / 4.0</p>
+  </div>
+</section>
+
+<section id="experience">
+  <h2>Professional Experience</h2>
+  <div class="card">
+    <h3>Deloitte USI – Data Analyst</h3>
+    <p><em>Nov 2022 – Jul 2025</em></p>
+    <ul>
+      <li>Designed SQL and Python analytics pipelines and dashboards supporting a $30B pharmaceutical client.</li>
+      <li>Built predictive and pricing models improving forecast accuracy for U.S. retail clients.</li>
+      <li>Automated ETL pipelines for a $32B healthcare system, reducing reporting effort by 40%.</li>
+      <li>Served as Scrum Master across multiple agile sprints, coordinating cross-functional teams.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="projects">
+  <h2>Projects</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Machine Learning Predictive Analytics</h3>
+      <p>Built and evaluated classification models including Naive Bayes, Decision Trees, and Random Forests to predict cardiovascular disease risk.</p>
+    </div>
+    <div class="card">
+      <h3>Global COVID-19 Data Analysis</h3>
+      <p>Performed exploratory and statistical analysis using SQL and Python to uncover geographic trends and outcome drivers.</p>
+    </div>
+    <div class="card">
+      <h3>Enterprise Data Quality Automation</h3>
+      <p>Implemented reconciliation logic and validation checks to proactively detect data inconsistencies across systems.</p>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <h2>Technical Skills</h2>
+  <div class="card">
+    <p><strong>Programming:</strong> SQL, Python, R, JavaScript, C/C++, Java</p>
+    <p><strong>Analytics:</strong> Forecasting, Regression, Segmentation, A/B Testing, Optimization</p>
+    <p><strong>Tools:</strong> Tableau, Power BI, Databricks, GCP, Git, Agile/Scrum</p>
+  </div>
+</section>
+
+<section id="contact">
+  <h2>Contact</h2>
+  <div class="card">
+    <p>Email: <a href="mailto:nniranj2@andrew.cmu.edu">nniranj2@andrew.cmu.edu</a></p>
+    <p>LinkedIn: <a href="https://www.linkedin.com/in/natasha-niranjan" target="_blank">linkedin.com/in/natasha-niranjan</a></p>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Natasha Niranjan</p>
+</footer>
+
+</body>
+</html>
