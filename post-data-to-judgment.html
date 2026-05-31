@@ -1,63 +1,329 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>From Data to Judgement | Natasha Niranjan</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: Inter, sans-serif;
-      background: #0b0614;
-      color: #ede9fe;
-      line-height: 1.75;
-      padding: 3rem 1.5rem;
-    }
-    article {
-      max-width: 720px;
-      margin: auto;
-    }
-    h1 {
-      font-size: 2.6rem;
-      margin-bottom: 0.5rem;
-      background: linear-gradient(135deg, #ede9fe, #a78bfa);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .meta {
-      color: #c4b5fd;
-      font-size: 0.9rem;
-      margin-bottom: 2.5rem;
-    }
-    a {
-      color: #a78bfa;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>From Data to Judgment — Natasha Niranjan</title>
+<meta name="description" content="On the unglamorous gap between having the right data and reaching the right decision." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #f5f1ea; --paper-2: #ede7dc; --ink: #1a1d2b; --ink-soft: #2e3247;
+  --ink-mute: #5b6079; --rule: #c9c1b1; --ember: #c8451f; --highlight: rgba(200, 69, 31, 0.08);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Fraunces', Georgia, serif; font-variation-settings: 'opsz' 14;
+  background: var(--paper); color: var(--ink);
+  font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 1;
+  background-image:
+    radial-gradient(at 15% 12%, rgba(184,138,58,0.05) 0%, transparent 40%),
+    radial-gradient(at 85% 75%, rgba(200,69,31,0.04) 0%, transparent 45%);
+}
+body::after {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 2;
+  opacity: 0.35; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='3'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.4 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.7'/></svg>");
+}
+.progress-rule {
+  position: fixed; top: 0; left: 0; height: 2px;
+  background: var(--ember); width: 0%; z-index: 60;
+  transition: width 0.08s linear;
+}
+.marginal {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute);
+  background: linear-gradient(180deg, var(--paper) 80%, transparent); pointer-events: none;
+}
+.marginal > * { pointer-events: auto; }
+.marginal a { color: var(--ink-mute); text-decoration: none; transition: color 0.2s; }
+.marginal a:hover { color: var(--ember); }
+
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 2.5rem; position: relative; z-index: 3; }
+.article-wrap { max-width: 760px; margin: 0 auto; padding: 0 2.5rem; position: relative; z-index: 3; }
+
+.back-link {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink-mute); text-decoration: none;
+  margin-top: 6rem; margin-bottom: 3rem;
+  transition: color 0.2s, transform 0.2s;
+}
+.back-link:hover { color: var(--ember); transform: translateX(-4px); }
+
+.post-header {
+  padding: 0 0 3rem;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 3.5rem;
+}
+.post-kicker {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ember); margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.post-kicker::before {
+  content: ''; width: 24px; height: 1px; background: var(--ember);
+}
+.post-header h1 {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 144, 'wght' 400;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  line-height: 1.05; letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+}
+.post-header h1 em {
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  color: var(--ember); font-weight: 400;
+}
+.post-deck {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 24, 'wght' 350;
+  font-size: 1.3rem; line-height: 1.5;
+  color: var(--ink-soft); margin-bottom: 2rem;
+  max-width: 38rem;
+}
+.post-deck em {
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  color: var(--ember);
+}
+.post-byline {
+  display: flex; gap: 1.5rem; flex-wrap: wrap;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.article-body {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 14, 'wght' 400;
+  font-size: 1.12rem; line-height: 1.78;
+  color: var(--ink-soft); padding-bottom: 4rem;
+}
+
+.article-body > p:first-of-type::first-line {
+  font-variation-settings: 'opsz' 24, 'wght' 500;
+  letter-spacing: 0.02em;
+}
+
+.article-body p { margin-bottom: 1.5rem; }
+.article-body p strong {
+  font-variation-settings: 'wght' 600;
+  color: var(--ink);
+}
+.article-body em {
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  color: var(--ember);
+}
+.article-body h2 {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 72, 'wght' 500;
+  font-size: 1.7rem; line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 3.5rem 0 1.2rem;
+  position: relative;
+}
+.article-body h2 em {
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  color: var(--ember); font-weight: 400;
+}
+.article-body h2::before {
+  content: ''; display: block; width: 40px; height: 1px;
+  background: var(--ember); margin-bottom: 1rem;
+}
+.article-body blockquote {
+  margin: 2rem 0; padding: 0.5rem 0 0.5rem 1.8rem;
+  border-left: 3px solid var(--ember);
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  font-size: 1.35rem; line-height: 1.5;
+  color: var(--ink);
+}
+.article-body ul {
+  list-style: none; padding: 0;
+  margin: 1.5rem 0;
+}
+.article-body ul li {
+  padding: 0.6rem 0 0.6rem 1.8rem;
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+}
+.article-body ul li:last-child { border-bottom: none; }
+.article-body ul li::before {
+  content: '→'; position: absolute; left: 0; top: 0.65rem;
+  font-family: 'Instrument Serif', serif; font-size: 1.2rem;
+  color: var(--ember); line-height: 1;
+}
+
+.post-footer {
+  padding: 3.5rem 0 2rem;
+  border-top: 1px solid var(--rule);
+}
+.signoff {
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  font-size: 1.4rem; color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+.signoff::before {
+  content: '— '; color: var(--ember);
+}
+.post-meta-footer {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.read-next {
+  padding: 4rem 0 6rem;
+}
+.read-next-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ember); margin-bottom: 1rem;
+}
+.read-next-link {
+  display: block; text-decoration: none; color: var(--ink);
+  padding: 2rem 0; border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  transition: padding-left 0.3s ease, background 0.3s ease;
+}
+.read-next-link:hover {
+  padding-left: 1.5rem; background: var(--highlight);
+}
+.read-next-link h3 {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 72, 'wght' 500;
+  font-size: 1.6rem; line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+.read-next-link h3 em {
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  color: var(--ember); font-weight: 400;
+}
+
+footer {
+  border-top: 1px solid var(--rule);
+  padding: 2.5rem 0;
+}
+.footer-row {
+  display: flex; justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-mute); flex-wrap: wrap; gap: 1rem;
+}
+
+@media (max-width: 860px) {
+  .article-wrap, .wrap { padding: 0 1.5rem; }
+  .marginal { padding: 1rem 1.5rem; font-size: 0.65rem; }
+  .back-link { margin-top: 5rem; margin-bottom: 2rem; }
+  .article-body { font-size: 1.05rem; }
+  .article-body h2 { font-size: 1.4rem; margin: 2.5rem 0 1rem; }
+  .article-body blockquote { font-size: 1.15rem; padding-left: 1.2rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; }
+}
+::selection { background: var(--ember); color: var(--paper); }
+</style>
 </head>
 <body>
 
-<article>
-  <a href="index.html">← Back to home</a>
+<div class="progress-rule" id="progress"></div>
 
-  <h1>From Data to Judgement</h1>
-  <div class="meta">Bridging technical insights and business impact</div>
+<div class="marginal">
+  <div><a href="index.html">Natasha Niranjan</a></div>
+  <div>Essay · 03 of 03</div>
+</div>
 
-  <p>
-    Write your essay here. This is where you can go deeper into ideas around
-    AI as a productivity amplifier, decision support system, and complement
-    to human judgment.
-  </p>
+<div class="article-wrap">
 
-  <p>
-    Keep paragraphs short, reflective, and analytical. This format works
-    beautifully for academic and professional readers.
-  </p>
-</article>
+  <a href="index.html#writing" class="back-link">← Back to writing</a>
+
+  <header class="post-header">
+    <div class="post-kicker">Essay · Analytics · Craft</div>
+    <h1>From data <em>to judgment.</em></h1>
+    <p class="post-deck">There's a gap between data and decision that most analytics never crosses. The gap is not technical. It's the part of the work nobody teaches and everyone needs.</p>
+    <div class="post-byline">
+      <div>By Natasha Niranjan</div>
+      <div>Essay · 2026</div>
+      <div>6 min read</div>
+    </div>
+  </header>
+
+  <article class="article-body">
+    <p>Most of what I learned in school about analytics was about going from a business question to a defensible analysis — features to engineer, models to choose, validation to run, dashboards to build. Most of what I learned at work was about something else entirely: going from a defensible analysis to a decision the business is actually willing to act on.</p>
+    <p>The first is a technical problem. The second is mostly not.</p>
+    <p>This gap — between having the analysis and earning the decision — is the part of the job that takes the longest to learn and that most discussions of analytics skip past. It is also, in my experience, the part that determines whether an analyst's work matters.</p>
+
+    <h2>The <em>plausible</em> analysis nobody acts on</h2>
+    <p>Every analyst has produced one. The data is clean, the methodology is sound, the visualizations are clear, the recommendation is reasonable — and the report sits in someone's inbox, then in their archive, then nowhere. The decision gets made anyway, on grounds that have nothing to do with the analysis. The analyst takes the lesson personally: <em>they didn't listen.</em></p>
+    <p>Sometimes they didn't listen. More often, the analysis didn't earn the listening. Three reasons I see this happen.</p>
+    <p><strong>The analysis answered a precise version of a question nobody had.</strong> The business question was fuzzy. The analyst, trained to convert fuzzy questions into precise ones, did so — and arrived at an answer to the precise question that no longer corresponded to the fuzzy question that actually mattered. Precision is not the same as relevance.</p>
+    <p><strong>The analysis arrived without context.</strong> A number is information; a number compared to a baseline is insight; a number compared to a baseline with implications for what to do is decision support. Most analyses stop one or two steps too early — leaving the audience to do the translation work, and quietly failing to do it.</p>
+    <p><strong>The analysis didn't survive the room.</strong> The audience had context the analyst didn't see — competitive moves, internal politics, prior failed attempts at similar work. The analysis didn't engage with any of it. The audience's first reaction was <em>the analyst doesn't understand our situation,</em> and from there, no number could have changed the decision.</p>
+
+    <h2>What <em>judgment</em> looks like</h2>
+    <p>Judgment, in the sense I mean, is what bridges these gaps. It is not a soft skill. It is a specific craft, and it has observable components.</p>
+    <p><strong>Knowing which question to actually answer.</strong> Faced with a fuzzy ask, a good analyst spends a disproportionate amount of time figuring out what the audience really needs to know. This is not the same as scoping. It is closer to translation — reading what the audience is anxious about, what they'd act on, what they'd ignore, and shaping the analysis around the version of the question that, if answered well, would change something.</p>
+    <p><strong>Sizing the analysis to the decision.</strong> A million-dollar decision warrants more rigor than a thousand-dollar one. An irreversible decision warrants more rigor than a reversible one. An analyst who applies the same standard to every analysis is wasting effort on the small ones and under-investing in the big ones.</p>
+    <p><strong>Being explicit about what would change the answer.</strong> A confident analysis with no stated sensitivities is brittle. A confident analysis that says "this conclusion holds unless X, Y, or Z, in which case here's what we'd see" is robust. The second is what decision-makers can act on.</p>
+    <p><strong>Respecting the audience's context.</strong> The decision-maker knows things the analyst doesn't. A good analysis acknowledges this — by framing implications carefully, by leaving room for the audience's context to update the conclusion, by not overstating what the analysis on its own can prove.</p>
+
+    <h2>The <em>storytelling</em> part nobody wants to call storytelling</h2>
+    <p>The word "storytelling" gets used in analytics circles with a slight wince. It sounds soft. It sounds like the part where the analysis gets dressed up and presented. <strong>It is actually the part where the analysis becomes useful.</strong></p>
+    <p>A good analytical narrative does specific work: it tells the audience what changed in the data and why that matters; it names the decision the analysis is meant to inform; it makes the strength of the evidence visible; it acknowledges what the analysis doesn't address; and it leaves the audience clearer about what to do than they were before. That last point is the test. If the audience leaves the room with the same beliefs and the same intended action as they walked in with, the analysis didn't do its job — no matter how technically clean it was.</p>
+    <blockquote>The analyst's job is not finished when the analysis is correct. It's finished when the audience can act on it.</blockquote>
+    <p>This is uncomfortable for analysts who came to the work because they loved the technical craft. The framing they often arrive with is that storytelling is somehow downstream of, or less important than, the technical work. In practice, the relationship is the other way around. The technical work is what the storytelling is built on; without good storytelling, the technical work is invisible.</p>
+
+    <h2>What it takes to <em>build</em> judgment</h2>
+    <p>You don't build it by reading books. You build it by shipping analyses, watching what happens to them, and updating.</p>
+    <p>Watching includes the parts most analysts skip. Did the audience act on it? If yes, on which parts? If no, why not — and was the failure the audience's, or the analysis's? Did the decision turn out well? If not, what would you have shown differently in retrospect? Did your prediction interval hold? If it didn't, what was the bias?</p>
+    <p>This feedback loop is slow. It's also the only way the craft develops. The analysts I respect most are not the ones with the best technical chops — they're the ones who have been wrong publicly enough times, and updated each time, that their instincts have become trustworthy.</p>
+    <p>For the analyst still building this, the most useful posture is the one most uncomfortable to hold: take responsibility for the decision, not just the analysis. Care about whether the audience does the right thing, not just whether you produced the right number. That posture changes which work you choose, how you communicate, and what you measure your own contribution by.</p>
+    <p>And, more than anything else, it changes whether the analysis matters.</p>
+  </article>
+
+  <div class="post-footer">
+    <div class="signoff">N.N.</div>
+    <div class="post-meta-footer">Carnegie Mellon · Tepper School of Business</div>
+  </div>
+
+  <section class="read-next">
+    <div class="read-next-label">Read next</div>
+    <a href="post-ai-force-multiplier.html" class="read-next-link">
+      <h3>AI as a <em>Force Multiplier,</em> not a replacement</h3>
+    </a>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-row">
+      <div>© 2026 Natasha Niranjan</div>
+      <div>Pittsburgh, PA</div>
+      <div><a href="index.html" style="color: var(--ink-mute); text-decoration: none;">Back to home →</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const progress = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const max = document.body.scrollHeight - window.innerHeight;
+  const pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+  progress.style.width = pct + '%';
+});
+</script>
 
 </body>
 </html>
