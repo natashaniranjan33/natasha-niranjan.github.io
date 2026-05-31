@@ -1,299 +1,1198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Natasha Niranjan | Analytics, AI & Strategy</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Natasha Niranjan — Analytics, Data & Applied AI</title>
+<meta name="description" content="Natasha Niranjan. Business analytics professional. MSBA, Carnegie Mellon. Data pipelines, modeling, and applied AI for enterprise teams." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #f5f1ea;
+  --paper-2: #ede7dc;
+  --ink: #1a1d2b;
+  --ink-soft: #2e3247;
+  --ink-mute: #5b6079;
+  --rule: #c9c1b1;
+  --ember: #c8451f;
+  --ember-soft: #e26b3c;
+  --gold: #b88a3a;
+  --highlight: rgba(200, 69, 31, 0.08);
+}
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-  <style>
-    :root {
-      --bg: #0b0614;
-      --card: rgba(28, 18, 46, 0.75);
-      --accent: #a78bfa;
-      --accent-2: #7c3aed;
-      --accent-soft: rgba(167, 139, 250, 0.25);
-      --text: #ede9fe;
-      --muted: #c4b5fd;
-    }
+html { scroll-behavior: smooth; }
 
-    * { box-sizing: border-box; }
+body {
+  font-family: 'Fraunces', Georgia, serif;
+  font-variation-settings: 'opsz' 14;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
 
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background:
-        radial-gradient(circle at 20% 10%, rgba(124,58,237,0.25), transparent 40%),
-        radial-gradient(circle at 80% 30%, rgba(167,139,250,0.2), transparent 45%),
-        radial-gradient(circle at 50% 90%, rgba(124,58,237,0.15), transparent 50%),
-        var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      scroll-behavior: smooth;
-      overflow-x: hidden;
-    }
+/* ---------- ATMOSPHERE: subtle grain & paper warmth ---------- */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image:
+    radial-gradient(at 15% 12%, rgba(184,138,58,0.05) 0%, transparent 40%),
+    radial-gradient(at 85% 75%, rgba(200,69,31,0.04) 0%, transparent 45%);
+}
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.35;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='3'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.4 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.7'/></svg>");
+}
 
-    /* ---------- MICRO SOUND ---------- */
-    audio { display: none; }
+/* ---------- TOP MARGINAL ---------- */
+.marginal {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  padding: 1.2rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  background: linear-gradient(180deg, var(--paper) 80%, transparent);
+  pointer-events: none;
+}
+.marginal > * { pointer-events: auto; }
+.marginal .vol { display: flex; gap: 1.5rem; }
+.marginal a { color: var(--ink-mute); text-decoration: none; transition: color 0.2s; }
+.marginal a:hover { color: var(--ember); }
 
-    /* ---------- PROGRESS BAR ---------- */
-    .progress {
-      position: fixed;
-      top: 0; left: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--accent), var(--accent-2));
-      width: 0%;
-      z-index: 100;
-    }
+/* ---------- READING PROGRESS ---------- */
+.progress-rule {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  background: var(--ember);
+  width: 0%;
+  z-index: 60;
+  transition: width 0.08s linear;
+}
 
-    /* ---------- CURSOR GLOW ---------- */
-    .cursor {
-      position: fixed;
-      width: 20px; height: 20px;
-      border-radius: 50%;
-      pointer-events: none;
-      background: radial-gradient(circle, var(--accent), transparent 60%);
-      mix-blend-mode: screen;
-      transform: translate(-50%, -50%);
-      z-index: 99;
-    }
+/* ---------- LAYOUT ---------- */
+.wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 2.5rem;
+  position: relative;
+  z-index: 3;
+}
 
-    /* ---------- FLOATING ORBS ---------- */
-    .orb {
-      position: fixed;
-      width: 460px; height: 460px;
-      border-radius: 50%;
-      filter: blur(140px);
-      opacity: 0.25;
-      z-index: -1;
-      animation: float 22s infinite alternate ease-in-out;
-    }
-    .orb.one { background: #a78bfa; top: -160px; left: -140px; }
-    .orb.two { background: #7c3aed; bottom: -180px; right: -160px; animation-delay: 7s; }
-    @keyframes float { from { transform: translateY(0); } to { transform: translateY(110px); } }
+/* ---------- MASTHEAD ---------- */
+.masthead {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8rem 0 5rem;
+  position: relative;
+}
 
-    /* ---------- HERO ---------- */
-    header {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 4rem 2rem;
-    }
-    .hero {
-      max-width: 1100px;
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 4rem;
-      align-items: center;
-    }
-    .hero h1 {
-      font-size: 3.3rem;
-      margin-bottom: 1rem;
-      line-height: 1.1;
-      background: linear-gradient(135deg, #ede9fe, var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .typing { font-size: 1.1rem; color: var(--muted); min-height: 1.5em; }
+.kicker {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ember);
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.kicker::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--ember);
+}
 
-    .cta {
-      color: inherit;
-      text-decoration: none; margin-top: 2.3rem; }
-    .cta a {
-      display: inline-block;
-      margin-right: 1rem;
-      padding: 0.85rem 1.9rem;
-      border-radius: 999px;
-      text-decoration: none;
-      font-weight: 500;
-      transition: all 0.3s ease;
-    }
-    .primary {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: #0b0614;
-      box-shadow: 0 12px 32px var(--accent-soft);
-    }
-    .primary:hover { transform: translateY(-3px) scale(1.03); }
-    .secondary {
-      border: 1px solid var(--accent);
-      color: var(--accent);
-      backdrop-filter: blur(10px);
-    }
-    .secondary:hover { background: rgba(167,139,250,0.12); }
+.masthead h1 {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 144, 'wght' 400;
+  font-size: clamp(3.2rem, 8vw, 6.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  margin-bottom: 1.5rem;
+}
 
-    /* ---------- PHOTO ---------- */
-    .photo {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      border-radius: 30px;
-      background: linear-gradient(135deg, #2a124f, #0b0614);
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 35px 70px rgba(0,0,0,0.55);
-      transition: transform 0.2s ease;
-    }
-    .photo::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(120deg, transparent, rgba(167,139,250,0.4), transparent);
-      animation: shimmer 7s infinite;
-    }
-    @keyframes shimmer { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+.masthead h1 .accent {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--ember);
+  font-size: 1.05em;
+}
 
-    /* ---------- NAV ---------- */
-    nav {
-      position: sticky; top: 0;
-      backdrop-filter: blur(16px);
-      background: rgba(11,6,20,0.65);
-      z-index: 10;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    nav ul {
-      display: flex; justify-content: center; list-style: none;
-      margin: 0; padding: 1rem; gap: 2.6rem;
-    }
-    nav a {
-      color: var(--muted); text-decoration: none; font-weight: 500; position: relative;
-    }
-    nav a::after {
-      content: ""; position: absolute; left: 0; bottom: -6px; width: 0; height: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width 0.3s ease;
-    }
-    nav a:hover::after { width: 100%; }
+.lede {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 24, 'wght' 350;
+  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+  line-height: 1.55;
+  max-width: 42rem;
+  color: var(--ink-soft);
+  margin-bottom: 3rem;
+}
+.lede em {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  color: var(--ember);
+  font-weight: 400;
+}
 
-    /* ---------- SECTIONS ---------- */
-    section {
-      max-width: 1000px; margin: auto; padding: 6rem 2rem;
-      opacity: 0; transform: translateY(60px);
-      transition: all 0.9s ease;
-    }
-    section.visible { opacity: 1; transform: translateY(0); }
-    h2 { font-size: 2.1rem; margin-bottom: 1.8rem; }
+.cta-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1.6rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+.btn-primary {
+  background: var(--ink);
+  color: var(--paper);
+  border: 1px solid var(--ink);
+}
+.btn-primary:hover {
+  background: var(--ember);
+  border-color: var(--ember);
+  transform: translateY(-2px);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--ink);
+}
+.btn-ghost:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+.btn .arr { transition: transform 0.25s; display: inline-block; }
+.btn:hover .arr { transform: translateX(4px); }
 
-    .card {
-      background: var(--card);
-      border-radius: 28px;
-      padding: 2.5rem;
-      margin-bottom: 2rem;
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255,255,255,0.08);
-      transition: transform 0.45s ease, box-shadow 0.45s ease;
-      transform-style: preserve-3d;
-    }
-    .card:hover {
-      transform: translateY(-10px) rotateX(2deg) rotateY(-2deg);
-      box-shadow: 0 35px 70px rgba(0,0,0,0.7);
-    }
+/* ---------- DECORATIVE ASIDE ---------- */
+.aside-meta {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+  transform-origin: right center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  white-space: nowrap;
+}
 
-    /* ---------- BLOG ---------- */
-    .blog { display: grid; gap: 1.8rem; }
-    .post {
-      padding: 2rem;
-      border-radius: 24px;
-      background: linear-gradient(135deg, rgba(167,139,250,0.15), rgba(124,58,237,0.15));
-      border: 1px solid rgba(255,255,255,0.1);
-      transition: transform 0.3s ease;
-      text-decoration: none;
-      color: inherit;
-    }
-    .post:hover { transform: translateY(-6px); }
-    .post h3 { margin-top: 0; }
-    .post span { font-size: 0.85rem; color: var(--muted); }
+/* ---------- SECTION HEADER ---------- */
+section { padding: 7rem 0; position: relative; }
 
-    /* ---------- SKILLS ---------- */
-    .skills { display: flex; flex-wrap: wrap; gap: 0.9rem; }
-    .pill {
-      padding: 0.55rem 1rem; border-radius: 999px; font-size: 0.85rem;
-      background: rgba(167,139,250,0.18); color: var(--accent);
-      transition: all 0.25s ease;
-    }
-    .pill:hover { background: var(--accent); color: #0b0614; transform: translateY(-2px); }
+.section-head {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 2rem;
+  align-items: baseline;
+  margin-bottom: 4rem;
+  border-top: 1px solid var(--rule);
+  padding-top: 2rem;
+}
+.section-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--ember);
+  letter-spacing: 0.1em;
+}
+.section-head h2 {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 144, 'wght' 400;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1;
+  letter-spacing: -0.025em;
+}
+.section-head h2 em {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  color: var(--ember);
+  font-weight: 400;
+}
 
-    footer { text-align: center; padding: 4rem 2rem; color: var(--muted); }
+/* ---------- ABOUT ---------- */
+.about-grid {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 2rem;
+}
+.about-body {
+  max-width: 38rem;
+}
+.about-body p {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  margin-bottom: 1.4rem;
+  color: var(--ink-soft);
+}
+.about-body p:first-child {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 24, 'wght' 400;
+  font-size: 1.4rem;
+  line-height: 1.5;
+  color: var(--ink);
+  margin-bottom: 1.8rem;
+}
+.about-body em {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  color: var(--ember);
+}
 
-    @media (max-width: 900px) {
-      .hero { grid-template-columns: 1fr; text-align: center; }
-    }
-  </style>
+/* ---------- METRICS STRIP ---------- */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin-top: 3.5rem;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.metric {
+  padding: 2rem 1.5rem;
+  border-right: 1px solid var(--rule);
+  text-align: left;
+}
+.metric:last-child { border-right: none; }
+.metric-val {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 144, 'wght' 500;
+  font-size: clamp(2rem, 3.2vw, 2.8rem);
+  line-height: 1;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.metric-val .unit {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--ember);
+  font-size: 0.7em;
+}
+.metric-lbl {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+/* ---------- EXPERIENCE ---------- */
+.timeline {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 2rem;
+}
+.timeline-body {
+  border-left: 1px solid var(--rule);
+  padding-left: 0;
+  position: relative;
+}
+.exp {
+  padding: 0 0 3rem 2.5rem;
+  position: relative;
+}
+.exp::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: 0.8rem;
+  width: 9px;
+  height: 9px;
+  background: var(--ember);
+  border-radius: 50%;
+}
+.exp:last-child { padding-bottom: 0; }
+.exp-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 0.6rem;
+}
+.exp h3 {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 72, 'wght' 500;
+  font-size: 1.6rem;
+  line-height: 1.2;
+  margin-bottom: 0.3rem;
+  letter-spacing: -0.015em;
+}
+.exp .role {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  color: var(--ember);
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+.exp p {
+  color: var(--ink-soft);
+  margin-bottom: 0.9rem;
+  font-size: 1.02rem;
+  max-width: 38rem;
+}
+.exp-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 1rem;
+}
+.stack-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  padding: 0.25rem 0.65rem;
+  background: var(--paper-2);
+  color: var(--ink-soft);
+  border-radius: 2px;
+  letter-spacing: 0.05em;
+}
+
+/* ---------- PROJECTS (case study cards) ---------- */
+.projects {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 2rem;
+}
+.project-list {
+  display: grid;
+  gap: 0;
+}
+.project-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  padding: 2.4rem 0;
+  border-top: 1px solid var(--rule);
+  text-decoration: none;
+  color: var(--ink);
+  transition: padding-left 0.3s ease, background 0.3s ease;
+  align-items: center;
+}
+.project-card:last-child { border-bottom: 1px solid var(--rule); }
+.project-card:hover {
+  padding-left: 1.2rem;
+  background: var(--highlight);
+}
+.project-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--ember);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+.project-card h3 {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 72, 'wght' 500;
+  font-size: 1.7rem;
+  line-height: 1.2;
+  margin-bottom: 0.7rem;
+  letter-spacing: -0.015em;
+}
+.project-card h3 em {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  color: var(--ember);
+  font-weight: 400;
+}
+.project-desc {
+  color: var(--ink-soft);
+  max-width: 44rem;
+  font-size: 1.02rem;
+  margin-bottom: 1rem;
+}
+.project-card-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.project-card-stack span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  padding: 0.25rem 0.65rem;
+  background: var(--paper-2);
+  color: var(--ink-soft);
+  border-radius: 2px;
+  letter-spacing: 0.05em;
+}
+.project-arrow {
+  font-family: 'Instrument Serif', serif;
+  font-size: 2rem;
+  color: var(--ember);
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+.project-card:hover .project-arrow {
+  transform: translateX(10px);
+}
+
+/* ---------- WRITING ---------- */
+.writing-grid {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 2rem;
+}
+.posts {
+  display: grid;
+  gap: 0;
+}
+.post-link {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  padding: 2rem 0;
+  border-top: 1px solid var(--rule);
+  text-decoration: none;
+  color: var(--ink);
+  transition: padding-left 0.3s ease;
+  align-items: center;
+}
+.post-link:last-child { border-bottom: 1px solid var(--rule); }
+.post-link:hover { padding-left: 1rem; background: var(--highlight); }
+.post-link h3 {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 72, 'wght' 500;
+  font-size: 1.5rem;
+  line-height: 1.25;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+}
+.post-link h3 em {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  color: var(--ember);
+  font-weight: 400;
+}
+.post-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.post-arrow {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.6rem;
+  color: var(--ember);
+  transition: transform 0.3s;
+}
+.post-link:hover .post-arrow { transform: translateX(8px); }
+
+/* ---------- SKILLS ---------- */
+.skills-grid {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 2rem;
+}
+.skill-group { margin-bottom: 2rem; }
+.skill-group-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ember);
+  margin-bottom: 0.8rem;
+}
+.skill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.2rem;
+}
+.skill-list span {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 24, 'wght' 400;
+  font-size: 1.02rem;
+  color: var(--ink);
+  position: relative;
+  padding-right: 1.2rem;
+}
+.skill-list span:not(:last-child)::after {
+  content: '·';
+  position: absolute;
+  right: 0;
+  color: var(--ink-mute);
+}
+
+/* ---------- NOW ---------- */
+.now-grid {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 2rem;
+}
+.now-card {
+  background: var(--paper-2);
+  padding: 2.5rem 2.5rem 2.2rem;
+  border-radius: 4px;
+  position: relative;
+  max-width: 42rem;
+  border-left: 3px solid var(--ember);
+}
+.now-card::before {
+  content: '*';
+  font-family: 'Instrument Serif', serif;
+  position: absolute;
+  top: 1.5rem; right: 2rem;
+  font-size: 2rem;
+  color: var(--ember);
+  line-height: 1;
+}
+.now-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 1rem;
+}
+.now-card h3 {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 72, 'wght' 500;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
+}
+.now-card ul { list-style: none; padding-left: 0; }
+.now-card li {
+  padding: 0.6rem 0 0.6rem 1.6rem;
+  position: relative;
+  color: var(--ink-soft);
+  border-bottom: 1px solid var(--rule);
+  font-size: 1rem;
+}
+.now-card li:last-child { border-bottom: none; }
+.now-card li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--ember);
+  font-family: 'Instrument Serif', serif;
+}
+.now-card li em {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  color: var(--ember);
+}
+
+/* ---------- CONTACT ---------- */
+.contact-section {
+  padding: 8rem 0 4rem;
+  text-align: left;
+}
+.contact-grid {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 2rem;
+}
+.contact-body h2 {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 144, 'wght' 400;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+}
+.contact-body h2 em {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  color: var(--ember);
+  font-weight: 400;
+}
+.contact-lead {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 24, 'wght' 350;
+  font-size: 1.3rem;
+  color: var(--ink-soft);
+  margin-bottom: 2.5rem;
+  max-width: 35rem;
+  line-height: 1.5;
+}
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.contact-link {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 72, 'wght' 400;
+  font-size: 1.4rem;
+  color: var(--ink);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 1rem;
+  width: fit-content;
+  position: relative;
+  transition: color 0.25s;
+}
+.contact-link::before {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  width: 5rem;
+  display: inline-block;
+}
+.contact-link.email::before { content: 'email →'; }
+.contact-link.linkedin::before { content: 'linkedin →'; }
+.contact-link.github::before { content: 'github →'; }
+.contact-link.resume::before { content: 'resume →'; }
+.contact-link:hover { color: var(--ember); }
+
+/* ---------- FOOTER ---------- */
+footer {
+  border-top: 1px solid var(--rule);
+  padding: 2.5rem 0;
+  margin-top: 4rem;
+}
+.footer-row {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* ---------- SCROLL REVEAL ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 860px) {
+  .wrap { padding: 0 1.5rem; }
+  .marginal { padding: 1rem 1.5rem; font-size: 0.65rem; }
+  .marginal .vol { display: none; }
+  .aside-meta { display: none; }
+  .section-head, .about-grid, .timeline, .projects, .writing-grid, .skills-grid, .now-grid, .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .project-card { grid-template-columns: 1fr; }
+  .metrics { grid-template-columns: repeat(2, 1fr); }
+  .metric:nth-child(2) { border-right: none; }
+  .metric:nth-child(1), .metric:nth-child(2) { border-bottom: 1px solid var(--rule); }
+  .post-link, .project-card { grid-template-columns: 1fr; }
+  .contact-link { font-size: 1.15rem; flex-wrap: wrap; }
+  .contact-link::before { width: 100%; margin-bottom: 0.2rem; }
+  section { padding: 4.5rem 0; }
+  .masthead { padding: 6rem 0 4rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* ---------- SELECTION ---------- */
+::selection { background: var(--ember); color: var(--paper); }
+</style>
 </head>
 <body>
 
-<audio id="clickSound" src="https://assets.mixkit.co/sfx/preview/mixkit-soft-click-1122.mp3"></audio>
+<div class="progress-rule" id="progress"></div>
 
-<div class="progress"></div>
-<div class="cursor"></div>
-<div class="orb one"></div>
-<div class="orb two"></div>
+<div class="marginal">
+  <div>Natasha Niranjan</div>
+  <div class="vol">
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
+    <a href="#writing">Writing</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div id="clock">—</div>
+</div>
 
-<header>
-  <div class="hero">
-    <div>
-      <h1>Natasha Niranjan</h1>
-      <div class="typing" id="typing"></div>
-      <div class="cta">
-        <a href="#experience" class="primary">Explore My Work</a>
-        <a href="#contact" class="secondary">Connect</a>
-      </div>
+<!-- ============ MASTHEAD ============ -->
+<header class="masthead">
+  <div class="wrap">
+    <div class="kicker">Vol. I · Carnegie Mellon · Class of 2026</div>
+    <h1>
+      Data, decisions,<br>
+      and the work <span class="accent">in between.</span>
+    </h1>
+    <p class="lede">
+      I'm <strong>Natasha Niranjan</strong> — a business analytics professional from the <em>Tepper School at Carnegie Mellon</em>, with three years at Deloitte building pipelines, models, and analytics products for enterprise teams. I care most about the layer that turns messy data into decisions someone is willing to act on.
+    </p>
+    <div class="cta-row">
+      <a href="#projects" class="btn btn-primary">See the work <span class="arr">→</span></a>
+      <a href="#contact" class="btn btn-ghost">Get in touch</a>
     </div>
-    <div class="photo" id="photo"></div>
+    <div class="aside-meta">Issue 026 — Pittsburgh, PA</div>
   </div>
 </header>
 
-<nav>
-  <ul>
-    <li><a href="#about">About</a></li>
-    <li><a href="#education">Education</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#blog">Writing</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
+<!-- ============ ABOUT ============ -->
+<section id="about" class="reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">§ 01</div>
+      <h2>About <em>the work</em></h2>
+    </div>
+    <div class="about-grid">
+      <div></div>
+      <div class="about-body">
+        <p>I build the layer between raw data and real decisions — pipelines that hold up, models that get used, and analyses that hold their shape in front of a stakeholder.</p>
+        <p>Before Carnegie Mellon, I spent close to three years at <em>Deloitte</em> as a Data Analyst and AI &amp; Analytics Consultant. I worked across pharma, retail, QSR, and healthcare — building ETL on Python and SQL, designing data models on Databricks and BigQuery, and shipping Tableau and Power BI products for cross-functional teams.</p>
+        <p>At CMU, I went deeper on the modeling and applied AI side — LLMs, transformers, RAG, AI agents, and AI governance — because that is where data work is going, and because I wanted the foundation to follow it there.</p>
+        <p>I am at my best when the question is ambiguous, the data is messy, and someone needs an answer they can defend.</p>
+      </div>
+    </div>
 
-<section id="about"><h2>About</h2><div class="card">I am a Business Analytics graduate student at Carnegie Mellon University with a background in computer science and consulting. I focus on analytics and AI systems that improve decision quality and strategic outcomes.</div></section>
+    <div class="metrics">
+      <div class="metric">
+        <span class="metric-val" data-target="3" data-suffix=""><span class="unit"> yrs</span></span>
+        <span class="metric-lbl">Deloitte tenure</span>
+      </div>
+      <div class="metric">
+        <span class="metric-val" data-target="30" data-suffix="B"><span class="unit">$</span></span>
+        <span class="metric-lbl">Pharma supply chain</span>
+      </div>
+      <div class="metric">
+        <span class="metric-val" data-target="40" data-suffix="%"><span class="unit">~</span></span>
+        <span class="metric-lbl">Manual effort cut</span>
+      </div>
+      <div class="metric">
+        <span class="metric-val" data-target="4" data-suffix="+"><span class="unit"> teams</span></span>
+        <span class="metric-lbl">Cross-functional scope</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-<section id="education"><h2>Education</h2><div class="card">Carnegie Mellon University, Tepper School of Business<br />MS in Business Analytics, Expected May 2026</div><div class="card">JSS Science & Technology University<br />Bachelor of Engineering in Computer Science, GPA 3.5/4.0</div></section>
+<!-- ============ EXPERIENCE ============ -->
+<section id="experience" class="reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">§ 02</div>
+      <h2>Where I've <em>worked</em></h2>
+    </div>
+    <div class="timeline">
+      <div></div>
+      <div class="timeline-body">
 
-<section id="experience"><h2>Experience</h2><div class="card">Deloitte USI – Data Analyst<br />Analytics pipelines, predictive modeling, executive dashboards, and agile delivery across healthcare, pharmaceutical, and retail clients.</div></section>
+        <div class="exp">
+          <div class="exp-meta">Aug 2025 — May 2026 · Pittsburgh</div>
+          <h3>Carnegie Mellon University</h3>
+          <div class="role">M.S. Business Analytics, Tepper School of Business</div>
+          <p>Concentration in statistical modeling, data management, and AI governance, with applied coursework in LLMs, transformers, RAG, and AI agents. Capstone with the Royal Bank of Canada on customer segmentation for advisor operations.</p>
+          <div class="exp-stack">
+            <span class="stack-tag">LLMs</span>
+            <span class="stack-tag">RAG</span>
+            <span class="stack-tag">AI Agents</span>
+            <span class="stack-tag">AI Governance</span>
+            <span class="stack-tag">Statistical Modeling</span>
+          </div>
+        </div>
 
-<section id="projects"><h2>Projects</h2><div class="card">Machine learning models, global data analysis, and enterprise-scale data quality automation.</div></section>
+        <div class="exp">
+          <div class="exp-meta">Nov 2022 — Jul 2025 · Deloitte USI</div>
+          <h3>Data Analyst · AI &amp; Analytics Consultant · Scrum Master</h3>
+          <div class="role">Pharma, Retail, QSR, Healthcare</div>
+          <p>Built end-to-end ETL pipelines in Python and SQL across structured and unstructured datasets for a $30B pharma supply chain — standardizing preprocessing, cleansing, and validation so downstream analytics ran on trusted data. Pipeline processing time cut by ~30%.</p>
+          <p>Designed scalable data models and warehousing solutions on Databricks and Google BigQuery; integrated AWS (S3, EC2, Lambda) pipelines into automation tooling, cutting manual effort by ~40% across reporting and analytics workflows.</p>
+          <p>Translated ambiguous stakeholder questions into scoped analytical systems for inventory flow and fulfillment KPIs. Built Tableau and Power BI dashboards across four-plus cross-functional teams. Led Agile ceremonies and translated technical scope and trade-offs for non-technical audiences.</p>
+          <div class="exp-stack">
+            <span class="stack-tag">Python</span>
+            <span class="stack-tag">SQL</span>
+            <span class="stack-tag">Databricks</span>
+            <span class="stack-tag">BigQuery</span>
+            <span class="stack-tag">AWS</span>
+            <span class="stack-tag">Tableau</span>
+            <span class="stack-tag">Power BI</span>
+            <span class="stack-tag">ETL</span>
+            <span class="stack-tag">Data Governance</span>
+          </div>
+        </div>
 
-<section id="blog"><h2>Writing</h2><div class="blog"><a class="post" href="post-ai-force-multiplier.html"><h3>AI as a Force Multiplier</h3><span>Thoughts on human-centered AI value</span></a><a class="post" href="post-decision-uncertainty.html"><h3>Decision-Making Under Uncertainty</h3><span>Lessons from analytics and strategy</span></a><a class="post" href="post-data-to-judgment.html"><h3>From Data to Judgment</h3><span>Bridging technical insight and business impact</span></a></div></section>
+        <div class="exp">
+          <div class="exp-meta">2018 — 2022 · Mysuru, India</div>
+          <h3>JSS Science &amp; Technology University</h3>
+          <div class="role">B.E. Computer Science</div>
+          <p>Coursework in advanced data analysis, machine learning for applications, and supply chain analytics. The foundation that made the consulting work make sense.</p>
+        </div>
 
-<section id="skills"><h2>Skills</h2><div class="card"><div class="skills"><span class="pill">SQL</span><span class="pill">Python</span><span class="pill">R</span><span class="pill">Tableau</span><span class="pill">Power BI</span><span class="pill">Databricks</span><span class="pill">GCP</span><span class="pill">Forecasting</span><span class="pill">Optimization</span><span class="pill">A/B Testing</span><span class="pill">Agile</span></div></div></section>
+      </div>
+    </div>
+  </div>
+</section>
 
-<section id="contact"><h2>Contact</h2><div class="card">Email: <a href="mailto:nniranj2@andrew.cmu.edu">nniranj2@andrew.cmu.edu</a><br />LinkedIn: <a href="https://www.linkedin.com/in/natasha-niranjan" target="_blank">linkedin.com/in/natasha-niranjan</a></div></section>
+<!-- ============ PROJECTS ============ -->
+<section id="projects" class="reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">§ 03</div>
+      <h2>Selected <em>case studies</em></h2>
+    </div>
+    <div class="projects">
+      <div></div>
+      <div class="project-list">
 
-<footer>© 2026 Natasha Niranjan</footer>
+        <a class="project-card" href="cases/case-healthcare.html">
+          <div>
+            <div class="project-num">01 — Healthcare & Life Sciences</div>
+            <h3>Migrating &amp; automating <em>a healthcare data estate</em></h3>
+            <p class="project-desc">Re-platformed a healthcare client's analytics environment with Python and SQL — automated migration, transformation, and validation pipelines that moved fragmented sources to a governed, auditable layer.</p>
+            <div class="project-card-stack">
+              <span>Python</span><span>SQL</span><span>AWS</span><span>Data Migration</span>
+            </div>
+          </div>
+          <div class="project-arrow">→</div>
+        </a>
+
+        <a class="project-card" href="cases/case-pharma.html">
+          <div>
+            <div class="project-num">02 — Pharma & Life Sciences</div>
+            <h3>Analytics for a <em>$30B pharma supply chain</em></h3>
+            <p class="project-desc">End-to-end data layer covering manufacturing yield, batch release, logistics, transportation, and distribution KPIs — turning fragmented operational feeds into one source of truth leadership could plan against.</p>
+            <div class="project-card-stack">
+              <span>Python</span><span>SQL</span><span>Databricks</span><span>BigQuery</span><span>AWS</span><span>Tableau</span>
+            </div>
+          </div>
+          <div class="project-arrow">→</div>
+        </a>
+
+        <a class="project-card" href="cases/case-qsr.html">
+          <div>
+            <div class="project-num">03 — QSR & Retail</div>
+            <h3>A pricing recommendation engine <em>for QSR franchises</em></h3>
+            <p class="project-desc">Menu-level price recommendations from inventory cost, local competitive signal, and margin targets — packaged so franchise operators saw the suggested price, the reasoning, and the trade-off in one view.</p>
+            <div class="project-card-stack">
+              <span>Python</span><span>Scikit-learn</span><span>SQL</span><span>AWS</span><span>Tableau</span>
+            </div>
+          </div>
+          <div class="project-arrow">→</div>
+        </a>
+
+        <a class="project-card" href="cases/case-retail.html">
+          <div>
+            <div class="project-num">04 — Retail & E-commerce</div>
+            <h3>Marketing analytics <em>for an e-commerce retailer</em></h3>
+            <p class="project-desc">Unified customer-and-event model with multi-touch attribution and lifetime-value modeling — replacing platform-by-platform reconciliation as the basis for marketing spend decisions.</p>
+            <div class="project-card-stack">
+              <span>Python</span><span>SQL</span><span>AWS</span><span>Tableau</span><span>Attribution</span>
+            </div>
+          </div>
+          <div class="project-arrow">→</div>
+        </a>
+
+        <a class="project-card" href="cases/case-rbc.html">
+          <div>
+            <div class="project-num">05 — Financial Services · Tepper Capstone</div>
+            <h3>Customer segmentation <em>for RBC advisor operations</em></h3>
+            <p class="project-desc">Behavior-based segmentation, a classification model, and an advisor playbook that ranked client accounts within each segment by where outreach would have the highest expected lift.</p>
+            <div class="project-card-stack">
+              <span>Python</span><span>Scikit-learn</span><span>SQL</span><span>Tableau</span><span>Stakeholder Work</span>
+            </div>
+          </div>
+          <div class="project-arrow">→</div>
+        </a>
+
+        <a class="project-card" href="cases/case-skincare.html">
+          <div>
+            <div class="project-num">06 — Consumer · Personal Project</div>
+            <h3>A skincare recommendation engine <em>hosted on AWS</em></h3>
+            <p class="project-desc">Hybrid content + collaborative recommender taking user skin type, concerns, and desired outcomes — trained on attribute and review data, served as a callable API on AWS SageMaker.</p>
+            <div class="project-card-stack">
+              <span>Python</span><span>AWS SageMaker</span><span>AWS Lambda</span><span>Scikit-learn</span><span>API</span>
+            </div>
+          </div>
+          <div class="project-arrow">→</div>
+        </a>
+
+        <a class="project-card" href="cases/case-telecom.html">
+          <div>
+            <div class="project-num">07 — Telecommunications</div>
+            <h3>Churn prediction <em>for a telecom operator</em></h3>
+            <p class="project-desc">Calibrated churn model with reason-coded outputs so retention conversations started with what was actually wrong, not a generic discount offer — validated against retention-campaign lift over control.</p>
+            <div class="project-card-stack">
+              <span>Python</span><span>XGBoost</span><span>SHAP</span><span>SQL</span><span>AWS</span>
+            </div>
+          </div>
+          <div class="project-arrow">→</div>
+        </a>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NOW ============ -->
+<section id="now" class="reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">§ 04</div>
+      <h2>What I'm <em>doing now</em></h2>
+    </div>
+    <div class="now-grid">
+      <div></div>
+      <div class="now-card">
+        <div class="now-meta">As of Spring 2026</div>
+        <h3>Finishing strong, looking forward</h3>
+        <ul>
+          <li>Wrapping the <em>RBC capstone</em> on customer segmentation and advisor playbooks.</li>
+          <li>Interviewing for <em>data and AI analyst</em> roles for after graduation.</li>
+          <li>Reading more carefully on <em>evaluation</em> — how to tell whether an AI product is actually working, not just shipping.</li>
+          <li>Writing essays on the gap between <em>data work and decision work</em> (see below).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WRITING ============ -->
+<section id="writing" class="reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">§ 05</div>
+      <h2>Writing &amp; <em>essays</em></h2>
+    </div>
+    <div class="writing-grid">
+      <div></div>
+      <div class="posts">
+        <a href="post-ai-force-multiplier.html" class="post-link">
+          <div>
+            <h3>AI as a <em>Force Multiplier</em></h3>
+            <div class="post-meta">Essay · Human-centered AI value</div>
+          </div>
+          <span class="post-arrow">→</span>
+        </a>
+        <a href="post-decision-uncertainty.html" class="post-link">
+          <div>
+            <h3>Decision-Making <em>Under Uncertainty</em></h3>
+            <div class="post-meta">Essay · Lessons from analytics &amp; strategy</div>
+          </div>
+          <span class="post-arrow">→</span>
+        </a>
+        <a href="post-data-to-judgment.html" class="post-link">
+          <div>
+            <h3>From Data to <em>Judgment</em></h3>
+            <div class="post-meta">Essay · Bridging technical insight &amp; business impact</div>
+          </div>
+          <span class="post-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SKILLS ============ -->
+<section id="skills" class="reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">§ 06</div>
+      <h2>Tools &amp; <em>technique</em></h2>
+    </div>
+    <div class="skills-grid">
+      <div></div>
+      <div>
+        <div class="skill-group">
+          <div class="skill-group-label">Languages</div>
+          <div class="skill-list">
+            <span>Python</span><span>SQL</span><span>R</span><span>JavaScript</span><span>React</span><span>HTML</span><span>CSS</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-label">Data platforms</div>
+          <div class="skill-list">
+            <span>Snowflake</span><span>Databricks</span><span>BigQuery</span><span>AWS (S3, EC2, Lambda)</span><span>Oracle SQL Developer</span><span>Salesforce</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-label">Data engineering</div>
+          <div class="skill-list">
+            <span>ETL pipelines</span><span>Data modeling</span><span>Warehousing</span><span>Data quality</span><span>Governance</span><span>Lineage</span><span>Data mining</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-label">Applied AI &amp; ML</div>
+          <div class="skill-list">
+            <span>LLMs</span><span>Transformers</span><span>RAG</span><span>Prompt engineering</span><span>AI agents</span><span>AI governance</span><span>Forecasting</span><span>Segmentation</span><span>Random Forest</span><span>LSTM</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-label">Analytics &amp; visualization</div>
+          <div class="skill-list">
+            <span>Tableau</span><span>Power BI</span><span>Statistical analysis</span><span>Dashboard design</span><span>Stakeholder enablement</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-label">Ways of working</div>
+          <div class="skill-list">
+            <span>Agile (Scrum)</span><span>JIRA</span><span>Confluence</span><span>Git</span><span>Cross-functional partnership</span><span>Documentation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact" class="contact-section reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">§ 07</div>
+      <h2 style="font-size: clamp(2rem, 4vw, 3rem);">Get in <em>touch</em></h2>
+    </div>
+    <div class="contact-grid">
+      <div></div>
+      <div class="contact-body">
+        <h2><em>Let's</em> talk.</h2>
+        <p class="contact-lead">I'm open to conversations about data and AI roles, interesting problems, or work where the goal is decisions someone can defend.</p>
+        <div class="contact-links">
+          <a href="mailto:nniranj2@andrew.cmu.edu" class="contact-link email">nniranj2@andrew.cmu.edu</a>
+          <a href="https://www.linkedin.com/in/natasha-niranjan" target="_blank" rel="noopener" class="contact-link linkedin">linkedin.com/in/natasha-niranjan</a>
+          <a href="https://github.com/natashaniranjan33" target="_blank" rel="noopener" class="contact-link github">github.com/natashaniranjan33</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-row">
+      <div>© 2026 Natasha Niranjan</div>
+      <div>Pittsburgh, PA · Open to opportunities</div>
+      <div>Designed &amp; built with care</div>
+    </div>
+  </div>
+</footer>
 
 <script>
-  const clickSound = document.getElementById('clickSound');
-  document.querySelectorAll('a').forEach(a => a.addEventListener('mouseenter', () => { clickSound.volume = 0.15; clickSound.currentTime = 0; clickSound.play(); }));
+// ----- Reading progress -----
+const progress = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const max = document.body.scrollHeight - window.innerHeight;
+  const pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+  progress.style.width = pct + '%';
+});
 
-  window.addEventListener('scroll', () => {
-    const scrolled = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
-    document.querySelector('.progress').style.width = scrolled + '%';
+// ----- Clock (subtle editorial detail) -----
+function updateClock() {
+  const now = new Date();
+  const opts = { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'America/New_York' };
+  document.getElementById('clock').textContent = now.toLocaleTimeString('en-US', opts) + ' ET';
+}
+updateClock();
+setInterval(updateClock, 30000);
+
+// ----- Reveal on scroll -----
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      io.unobserve(entry.target);
+    }
   });
+}, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+reveals.forEach(r => io.observe(r));
 
-  const cursor = document.querySelector('.cursor');
-  window.addEventListener('mousemove', e => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; });
+// ----- Animated metric counters -----
+const metricEls = document.querySelectorAll('.metric-val');
+const metricIO = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      animateCounter(entry.target);
+      metricIO.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+metricEls.forEach(el => metricIO.observe(el));
 
-  const text = ['Analytics & AI Enthusiast', 'Human-Centered Decision Maker', 'MSBA @ Carnegie Mellon'];
-  let i = 0, j = 0, del = false;
-  const el = document.getElementById('typing');
-  setInterval(() => { el.textContent = text[i].slice(0, j); if (!del && j++ === text[i].length) del = true; else if (del && j-- === 0) { del = false; i = (i + 1) % text.length; } }, 120);
+function animateCounter(el) {
+  const target = parseInt(el.dataset.target, 10);
+  const suffix = el.dataset.suffix || '';
+  const unitSpan = el.querySelector('.unit');
+  const unit = unitSpan ? unitSpan.outerHTML : '';
+  const unitText = unitSpan ? unitSpan.textContent.trim() : '';
+  const duration = 1400;
+  const start = performance.now();
+  // Unit goes BEFORE the value for $ and ~ (prefix), AFTER otherwise
+  const isPrefix = unitText === '$' || unitText === '~';
+  function tick(now) {
+    const t = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - t, 3);
+    const val = Math.round(target * eased);
+    if (isPrefix) {
+      el.innerHTML = unit + val + suffix;
+    } else {
+      el.innerHTML = val + suffix + unit;
+    }
+    if (t < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
 
-  const sections = document.querySelectorAll('section');
-  const observer = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.15 });
-  sections.forEach(s => observer.observe(s));
-
-  const photo = document.getElementById('photo');
-  photo.addEventListener('mousemove', e => { const r = photo.getBoundingClientRect(); const x = e.clientX - r.left; const y = e.clientY - r.top; const rx = ((y / r.height) - 0.5) * -10; const ry = ((x / r.width) - 0.5) * 10; photo.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`; });
-  photo.addEventListener('mouseleave', () => photo.style.transform = 'rotateX(0) rotateY(0)');
+// ----- Smooth nav -----
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    const id = a.getAttribute('href');
+    if (id === '#' || id.length < 2) return;
+    const target = document.querySelector(id);
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
 </script>
 
 </body>
