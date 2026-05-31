@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>QSR Menu Pricing Recommendation Engine — Natasha Niranjan</title>
+<meta name="description" content="Predictive pricing recommendation engine for QSR franchises balancing inventory, competition, and margin targets." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #f5f1ea; --paper-2: #ede7dc; --ink: #1a1d2b; --ink-soft: #2e3247;
+  --ink-mute: #5b6079; --rule: #c9c1b1; --ember: #c8451f; --highlight: rgba(200, 69, 31, 0.08);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Fraunces', Georgia, serif; font-variation-settings: 'opsz' 14;
+  background: var(--paper); color: var(--ink);
+  font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 1;
+  background-image:
+    radial-gradient(at 15% 12%, rgba(184,138,58,0.05) 0%, transparent 40%),
+    radial-gradient(at 85% 75%, rgba(200,69,31,0.04) 0%, transparent 45%);
+}
+body::after {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 2;
+  opacity: 0.35; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='3'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.4 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.7'/></svg>");
+}
+.marginal {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute);
+  background: linear-gradient(180deg, var(--paper) 80%, transparent); pointer-events: none;
+}
+.marginal > * { pointer-events: auto; }
+.marginal a { color: var(--ink-mute); text-decoration: none; transition: color 0.2s; }
+.marginal a:hover { color: var(--ember); }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 2.5rem; position: relative; z-index: 3; }
+.back-link {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink-mute); text-decoration: none;
+  margin-top: 6rem; margin-bottom: 3rem;
+  transition: color 0.2s, transform 0.2s;
+}
+.back-link:hover { color: var(--ember); transform: translateX(-4px); }
+.case-hero { padding: 0 0 4rem; border-bottom: 1px solid var(--rule); }
+.case-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+.case-tag {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.35rem 0.85rem; background: var(--paper-2);
+  color: var(--ink-soft); border-radius: 2px;
+}
+.case-tag.industry { background: var(--ember); color: var(--paper); }
+.case-hero h1 {
+  font-family: 'Fraunces', serif; font-variation-settings: 'opsz' 144, 'wght' 400;
+  font-size: clamp(2.4rem, 5.5vw, 4.4rem); line-height: 1.02;
+  letter-spacing: -0.03em; margin-bottom: 1.5rem; max-width: 22ch;
+}
+.case-hero h1 em { font-family: 'Instrument Serif', serif; font-style: italic; color: var(--ember); font-weight: 400; }
+.case-lede {
+  font-family: 'Fraunces', serif; font-variation-settings: 'opsz' 24, 'wght' 350;
+  font-size: clamp(1.1rem, 1.6vw, 1.35rem); line-height: 1.5;
+  color: var(--ink-soft); max-width: 42rem;
+}
+.case-meta {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 0; margin-top: 3rem; border-top: 1px solid var(--rule);
+}
+.case-meta-cell { padding: 1.5rem 1.5rem 0 0; border-right: 1px solid var(--rule); }
+.case-meta-cell:last-child { border-right: none; }
+.case-meta-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ember); margin-bottom: 0.5rem;
+}
+.case-meta-value {
+  font-family: 'Fraunces', serif; font-variation-settings: 'opsz' 24, 'wght' 500;
+  font-size: 1.05rem; color: var(--ink);
+}
+section.case-section { padding: 5rem 0; border-bottom: 1px solid var(--rule); }
+section.case-section:last-of-type { border-bottom: none; }
+.case-grid { display: grid; grid-template-columns: 280px 1fr; gap: 4rem; }
+.case-section-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ember); margin-bottom: 1rem;
+}
+.case-section-title {
+  font-family: 'Fraunces', serif; font-variation-settings: 'opsz' 72, 'wght' 500;
+  font-size: 1.9rem; line-height: 1.15;
+  letter-spacing: -0.02em; color: var(--ink); max-width: 14ch;
+}
+.case-section-title em { font-family: 'Instrument Serif', serif; font-style: italic; color: var(--ember); font-weight: 400; }
+.case-body p {
+  font-size: 1.05rem; color: var(--ink-soft);
+  margin-bottom: 1.3rem; line-height: 1.7; max-width: 42rem;
+}
+.case-body p:first-child {
+  font-family: 'Fraunces', serif; font-variation-settings: 'opsz' 24, 'wght' 400;
+  font-size: 1.25rem; color: var(--ink); line-height: 1.55;
+}
+.case-body em { font-family: 'Instrument Serif', serif; font-style: italic; color: var(--ember); }
+.case-body strong { font-weight: 600; color: var(--ink); }
+.outcome-list { list-style: none; padding: 0; margin-top: 1.5rem; }
+.outcome-list li {
+  padding: 1.1rem 0 1.1rem 2.2rem;
+  border-bottom: 1px solid var(--rule);
+  position: relative; color: var(--ink-soft);
+  font-size: 1.02rem; line-height: 1.6; max-width: 44rem;
+}
+.outcome-list li:last-child { border-bottom: none; }
+.outcome-list li::before {
+  content: '→'; position: absolute; left: 0; top: 1.05rem;
+  font-family: 'Instrument Serif', serif; font-size: 1.3rem;
+  color: var(--ember); line-height: 1;
+}
+.outcome-list li strong {
+  font-family: 'Fraunces', serif; font-variation-settings: 'wght' 600;
+  color: var(--ink); display: block; margin-bottom: 0.25rem;
+}
+.stack-strip { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+.stack-strip span {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+  padding: 0.3rem 0.75rem; background: var(--paper-2);
+  color: var(--ink-soft); border-radius: 2px; letter-spacing: 0.05em;
+}
+.next-case { padding: 5rem 0 6rem; }
+.next-case-grid { display: grid; grid-template-columns: 280px 1fr; gap: 4rem; }
+.next-link {
+  display: block; text-decoration: none; color: var(--ink);
+  padding: 2.5rem 0 2.5rem; border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  transition: padding-left 0.3s ease, background 0.3s ease;
+}
+.next-link:hover { padding-left: 1.5rem; background: var(--highlight); }
+.next-link-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ember); margin-bottom: 0.6rem;
+}
+.next-link h3 {
+  font-family: 'Fraunces', serif; font-variation-settings: 'opsz' 72, 'wght' 500;
+  font-size: 1.8rem; line-height: 1.15; letter-spacing: -0.015em;
+}
+.next-link h3 em { font-family: 'Instrument Serif', serif; font-style: italic; color: var(--ember); font-weight: 400; }
+footer { border-top: 1px solid var(--rule); padding: 2.5rem 0; }
+.footer-row {
+  display: flex; justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-mute); flex-wrap: wrap; gap: 1rem;
+}
+@media (max-width: 860px) {
+  .wrap { padding: 0 1.5rem; }
+  .marginal { padding: 1rem 1.5rem; font-size: 0.65rem; }
+  .back-link { margin-top: 5rem; margin-bottom: 2rem; }
+  .case-meta { grid-template-columns: repeat(2, 1fr); }
+  .case-meta-cell { padding-right: 1rem; }
+  .case-meta-cell:nth-child(2) { border-right: none; }
+  .case-meta-cell:nth-child(1), .case-meta-cell:nth-child(2) { border-bottom: 1px solid var(--rule); padding-bottom: 1.5rem; }
+  .case-grid, .next-case-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  section.case-section { padding: 3.5rem 0; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0.01ms !important; } }
+::selection { background: var(--ember); color: var(--paper); }
+</style>
+</head>
+<body>
+
+<div class="marginal">
+  <div><a href="index.html">Natasha Niranjan</a></div>
+  <div>Case Study · 03 of 07</div>
+</div>
+
+<div class="wrap">
+
+  <a href="index.html#projects" class="back-link">← Back to projects</a>
+
+  <header class="case-hero">
+    <div class="case-tags">
+      <span class="case-tag industry">QSR & Retail</span>
+      <span class="case-tag">Predictive Analytics</span>
+      <span class="case-tag">Pricing</span>
+      <span class="case-tag">Python</span>
+      <span class="case-tag">SQL</span>
+      <span class="case-tag">AWS</span>
+      <span class="case-tag">Tableau</span>
+    </div>
+    <h1>A pricing recommendation engine <em>for QSR franchises.</em></h1>
+    <p class="case-lede">Built a menu-level pricing recommendation system that helped franchise operators set item prices using inventory cost movements, local competitive signals, and margin targets — packaged so a non-technical store manager could see the suggested price, the reasoning, and the trade-off in a single view.</p>
+
+    <div class="case-meta">
+      <div class="case-meta-cell">
+        <div class="case-meta-label">Client</div>
+        <div class="case-meta-value">QSR brand with multi-franchise footprint (Deloitte engagement)</div>
+      </div>
+      <div class="case-meta-cell">
+        <div class="case-meta-label">Role</div>
+        <div class="case-meta-value">Data Analyst & Modeler</div>
+      </div>
+      <div class="case-meta-cell">
+        <div class="case-meta-label">Timeline</div>
+        <div class="case-meta-value">2024</div>
+      </div>
+      <div class="case-meta-cell">
+        <div class="case-meta-label">Focus</div>
+        <div class="case-meta-value">Modeling · Decision Support · Pricing</div>
+      </div>
+    </div>
+  </header>
+
+  <section class="case-section">
+    <div class="case-grid">
+      <div>
+        <div class="case-section-label">§ Overview</div>
+        <h2 class="case-section-title"><em>Pricing</em> as a recurring decision, not an annual exercise.</h2>
+      </div>
+      <div class="case-body">
+        <p>QSR menu pricing is deceptively hard. Input costs move week to week. Competitive pressure varies by trade area. Franchisees have margin and traffic targets that don't always pull in the same direction. And the people making the actual pricing decision are store and area managers — not pricing analysts.</p>
+        <p>The brand had been running pricing as a once- or twice-a-year exercise driven from corporate. The result was the familiar one: <strong>prices that were either stale relative to cost movements or out of line with local competitive reality.</strong> Margin leaked quietly. Where prices were raised, traffic dipped without a clear sense of why.</p>
+        <p>What the engagement needed to produce:</p>
+        <ul class="outcome-list">
+          <li>A recommendation engine that produced a defensible price per menu item per trade area, refreshed at a meaningful cadence rather than annually.</li>
+          <li>Inputs that reflected the real drivers: ingredient cost trajectories, local competitive prices where available, item-level demand elasticity estimates, and margin targets.</li>
+          <li>An interface that surfaced the <em>why</em> behind a recommendation, not just the number — a store manager needed to be able to override with their own context.</li>
+          <li>A system that learned from accepted versus overridden recommendations over time.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="case-section">
+    <div class="case-grid">
+      <div>
+        <div class="case-section-label">§ The Solution</div>
+        <h2 class="case-section-title">Predictions <em>plus the reasoning,</em> in one view.</h2>
+      </div>
+      <div class="case-body">
+        <p>The recommendation system was built as a sequence of models layered onto a clean transactional and operational dataset, all stitched together on AWS infrastructure with Python services and SQL feature pipelines.</p>
+        <p><strong>Demand elasticity</strong> was estimated per item per trade-area cluster using historical transaction data, with controls for promotions, weather, weekday effects, and seasonality. Items with thin data were borrowed-strength estimated against the closest comparable items rather than ignored.</p>
+        <p><strong>Cost and margin logic</strong> was modeled as a deterministic engine on top of the demand model: ingredient cost feeds, packaging and labor allocations, and franchise margin targets fed a constrained optimization that produced a recommended price range for each item.</p>
+        <p><strong>Competitive signal</strong> was incorporated where data was reliable — competitor menu pricing snapshots were pulled and joined at the trade-area level, with confidence weighting so weak signals didn't dominate the recommendation.</p>
+        <p><strong>The franchisee interface was the actual product.</strong> A Tableau-based front end showed each item with its current price, the recommended price, the expected demand and margin impact, and the three or four reasons driving the recommendation — cost movement, competitor benchmark, elasticity, target margin. Managers could accept, override, or defer, and overrides were logged as feedback for the next model retrain.</p>
+        <p><strong>Backtesting was disciplined.</strong> Recommendations were validated against held-out historical periods before deployment, with attention to whether the model's accepted recommendations would have improved margin versus baseline pricing — not just whether the predictions were statistically accurate.</p>
+        <div class="stack-strip">
+        <div class="stack-strip">
+          <span>Python</span><span>Scikit-learn</span><span>Statsmodels</span><span>SQL</span><span>AWS S3 · EC2 · Lambda</span><span>Tableau</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="case-section">
+    <div class="case-grid">
+      <div>
+        <div class="case-section-label">§ Results</div>
+        <h2 class="case-section-title">A pricing decision <em>franchisees could defend.</em></h2>
+      </div>
+      <div class="case-body">
+        <p>The win wasn't a single number; it was that pricing stopped being an opaque corporate edict and became a transparent local decision with backing.</p>
+        <ul class="outcome-list">
+          <li><strong>Pricing cadence shifted</strong> from once or twice a year to a regular review rhythm with fresh inputs, narrowing the lag between cost movement and price response.</li>
+          <li><strong>Recommendations were adopted at a healthy rate</strong> precisely because the reasoning was visible. Overrides, when they happened, were informed — and they became signal for the next iteration of the model.</li>
+          <li><strong>Margin protection improved</strong> on the items where elasticity estimates were strongest, without the traffic dips that come from blunt across-the-board price increases.</li>
+          <li><strong>Franchisee trust in corporate pricing guidance increased</strong>, because the system showed its work.</li>
+          <li><strong>The model improved over time</strong> by learning from accepted versus overridden recommendations — the system got more useful the longer it ran.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="next-case">
+    <div class="next-case-grid">
+      <div>
+        <div class="case-section-label">Next</div>
+        <h2 class="case-section-title">Case Study <em>04</em></h2>
+      </div>
+      <a href="case-retail.html" class="next-link">
+        <div class="next-link-label">Retail · Marketing analytics</div>
+        <h3><em>Marketing analytics</em> for an e-commerce retailer.</h3>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-row">
+        <div>© 2026 Natasha Niranjan</div>
+        <div>Pittsburgh, PA</div>
+        <div><a href="index.html" style="color: var(--ink-mute); text-decoration: none;">Back to home →</a></div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
