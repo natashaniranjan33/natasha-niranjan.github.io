@@ -1,63 +1,327 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Decision making Under Uncertainty | Natasha Niranjan</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: Inter, sans-serif;
-      background: #0b0614;
-      color: #ede9fe;
-      line-height: 1.75;
-      padding: 3rem 1.5rem;
-    }
-    article {
-      max-width: 720px;
-      margin: auto;
-    }
-    h1 {
-      font-size: 2.6rem;
-      margin-bottom: 0.5rem;
-      background: linear-gradient(135deg, #ede9fe, #a78bfa);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .meta {
-      color: #c4b5fd;
-      font-size: 0.9rem;
-      margin-bottom: 2.5rem;
-    }
-    a {
-      color: #a78bfa;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Decision-Making Under Uncertainty — Natasha Niranjan</title>
+<meta name="description" content="On what analytics can and can't do for decisions made with incomplete information." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #f5f1ea; --paper-2: #ede7dc; --ink: #1a1d2b; --ink-soft: #2e3247;
+  --ink-mute: #5b6079; --rule: #c9c1b1; --ember: #c8451f; --highlight: rgba(200, 69, 31, 0.08);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Fraunces', Georgia, serif; font-variation-settings: 'opsz' 14;
+  background: var(--paper); color: var(--ink);
+  font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 1;
+  background-image:
+    radial-gradient(at 15% 12%, rgba(184,138,58,0.05) 0%, transparent 40%),
+    radial-gradient(at 85% 75%, rgba(200,69,31,0.04) 0%, transparent 45%);
+}
+body::after {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 2;
+  opacity: 0.35; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='3'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.4 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.7'/></svg>");
+}
+.progress-rule {
+  position: fixed; top: 0; left: 0; height: 2px;
+  background: var(--ember); width: 0%; z-index: 60;
+  transition: width 0.08s linear;
+}
+.marginal {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute);
+  background: linear-gradient(180deg, var(--paper) 80%, transparent); pointer-events: none;
+}
+.marginal > * { pointer-events: auto; }
+.marginal a { color: var(--ink-mute); text-decoration: none; transition: color 0.2s; }
+.marginal a:hover { color: var(--ember); }
+
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 2.5rem; position: relative; z-index: 3; }
+.article-wrap { max-width: 760px; margin: 0 auto; padding: 0 2.5rem; position: relative; z-index: 3; }
+
+.back-link {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink-mute); text-decoration: none;
+  margin-top: 6rem; margin-bottom: 3rem;
+  transition: color 0.2s, transform 0.2s;
+}
+.back-link:hover { color: var(--ember); transform: translateX(-4px); }
+
+.post-header {
+  padding: 0 0 3rem;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 3.5rem;
+}
+.post-kicker {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ember); margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.post-kicker::before {
+  content: ''; width: 24px; height: 1px; background: var(--ember);
+}
+.post-header h1 {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 144, 'wght' 400;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  line-height: 1.05; letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+}
+.post-header h1 em {
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  color: var(--ember); font-weight: 400;
+}
+.post-deck {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 24, 'wght' 350;
+  font-size: 1.3rem; line-height: 1.5;
+  color: var(--ink-soft); margin-bottom: 2rem;
+  max-width: 38rem;
+}
+.post-deck em {
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  color: var(--ember);
+}
+.post-byline {
+  display: flex; gap: 1.5rem; flex-wrap: wrap;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.article-body {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 14, 'wght' 400;
+  font-size: 1.12rem; line-height: 1.78;
+  color: var(--ink-soft); padding-bottom: 4rem;
+}
+
+.article-body > p:first-of-type::first-line {
+  font-variation-settings: 'opsz' 24, 'wght' 500;
+  letter-spacing: 0.02em;
+}
+
+.article-body p { margin-bottom: 1.5rem; }
+.article-body p strong {
+  font-variation-settings: 'wght' 600;
+  color: var(--ink);
+}
+.article-body em {
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  color: var(--ember);
+}
+.article-body h2 {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 72, 'wght' 500;
+  font-size: 1.7rem; line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 3.5rem 0 1.2rem;
+  position: relative;
+}
+.article-body h2 em {
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  color: var(--ember); font-weight: 400;
+}
+.article-body h2::before {
+  content: ''; display: block; width: 40px; height: 1px;
+  background: var(--ember); margin-bottom: 1rem;
+}
+.article-body blockquote {
+  margin: 2rem 0; padding: 0.5rem 0 0.5rem 1.8rem;
+  border-left: 3px solid var(--ember);
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  font-size: 1.35rem; line-height: 1.5;
+  color: var(--ink);
+}
+.article-body ul {
+  list-style: none; padding: 0;
+  margin: 1.5rem 0;
+}
+.article-body ul li {
+  padding: 0.6rem 0 0.6rem 1.8rem;
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+}
+.article-body ul li:last-child { border-bottom: none; }
+.article-body ul li::before {
+  content: '→'; position: absolute; left: 0; top: 0.65rem;
+  font-family: 'Instrument Serif', serif; font-size: 1.2rem;
+  color: var(--ember); line-height: 1;
+}
+
+.post-footer {
+  padding: 3.5rem 0 2rem;
+  border-top: 1px solid var(--rule);
+}
+.signoff {
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  font-size: 1.4rem; color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+.signoff::before {
+  content: '— '; color: var(--ember);
+}
+.post-meta-footer {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.read-next {
+  padding: 4rem 0 6rem;
+}
+.read-next-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ember); margin-bottom: 1rem;
+}
+.read-next-link {
+  display: block; text-decoration: none; color: var(--ink);
+  padding: 2rem 0; border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  transition: padding-left 0.3s ease, background 0.3s ease;
+}
+.read-next-link:hover {
+  padding-left: 1.5rem; background: var(--highlight);
+}
+.read-next-link h3 {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 72, 'wght' 500;
+  font-size: 1.6rem; line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+.read-next-link h3 em {
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  color: var(--ember); font-weight: 400;
+}
+
+footer {
+  border-top: 1px solid var(--rule);
+  padding: 2.5rem 0;
+}
+.footer-row {
+  display: flex; justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-mute); flex-wrap: wrap; gap: 1rem;
+}
+
+@media (max-width: 860px) {
+  .article-wrap, .wrap { padding: 0 1.5rem; }
+  .marginal { padding: 1rem 1.5rem; font-size: 0.65rem; }
+  .back-link { margin-top: 5rem; margin-bottom: 2rem; }
+  .article-body { font-size: 1.05rem; }
+  .article-body h2 { font-size: 1.4rem; margin: 2.5rem 0 1rem; }
+  .article-body blockquote { font-size: 1.15rem; padding-left: 1.2rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; }
+}
+::selection { background: var(--ember); color: var(--paper); }
+</style>
 </head>
 <body>
 
-<article>
-  <a href="index.html">← Back to home</a>
+<div class="progress-rule" id="progress"></div>
 
-  <h1>>Decision making Under Uncertaintyr</h1>
-  <div class="meta">Lessons from analytics and strategy</div>
+<div class="marginal">
+  <div><a href="index.html">Natasha Niranjan</a></div>
+  <div>Essay · 02 of 03</div>
+</div>
 
-  <p>
-    Write your essay here. This is where you can go deeper into ideas around
-    AI as a productivity amplifier, decision support system, and complement
-    to human judgment.
-  </p>
+<div class="article-wrap">
 
-  <p>
-    Keep paragraphs short, reflective, and analytical. This format works
-    beautifully for academic and professional readers.
-  </p>
-</article>
+  <a href="index.html#writing" class="back-link">← Back to writing</a>
+
+  <header class="post-header">
+    <div class="post-kicker">Essay · Analytics · Decisions</div>
+    <h1>Decision-making <em>under uncertainty.</em></h1>
+    <p class="post-deck">Analytics doesn't remove uncertainty. It changes the relationship the decision-maker has with it — and that's the part most analysts learn too late.</p>
+    <div class="post-byline">
+      <div>By Natasha Niranjan</div>
+      <div>Essay · 2026</div>
+      <div>5 min read</div>
+    </div>
+  </header>
+
+  <article class="article-body">
+    <p>Most of the work I've done as a data analyst has been in service of decisions that, when made, were not made with certainty. That sentence sounds obvious. It is not how most analytics is taught.</p>
+    <p>Analytics training treats uncertainty as a quantity to be reduced. More data, better models, tighter confidence intervals — the implicit promise is that with enough work, the analyst hands the decision-maker a clear answer, and the decision is made on that basis. <strong>Real decisions almost never work this way.</strong> Real decisions are made with incomplete information, against deadlines, by people balancing concerns the analyst doesn't fully see, and the analysis is one input among many.</p>
+    <p>Learning to operate in that gap — between what analytics can prove and what decisions actually require — is, I think, the most important skill of the job. It's also the one I've watched smart analysts struggle with the longest.</p>
+
+    <h2>The seduction of <em>more data</em></h2>
+    <p>The instinct of most analysts when faced with a hard decision is to ask for more data. Sometimes that's right. Often it isn't. Three patterns worth recognizing.</p>
+    <p><strong>The marginal-return trap.</strong> The first half of the available data tells you most of what you need. The second half tells you a little more. The third half tells you nothing useful and burns the decision-maker's patience. Knowing where you are on this curve is a real skill, and it's not in any textbook.</p>
+    <p><strong>The wrong-question problem.</strong> More data on the wrong question is worse than less data on the right one. An analyst who pushes harder on a precise but irrelevant metric is sometimes producing comfort, not insight.</p>
+    <p><strong>The deadline reality.</strong> The decision will be made by Friday whether you have more data or not. The question is whether the decision is made with your analysis as input, or in spite of it. Late but rigorous loses to on-time and pretty good, almost every time.</p>
+
+    <h2>What analytics <em>actually</em> does</h2>
+    <p>If analytics doesn't remove uncertainty, what does it do? Three things, in order of how much they matter.</p>
+    <p><strong>It changes the prior.</strong> Before the analysis, the decision-maker has a belief about how the world works. After the analysis, that belief is informed by evidence. The belief is rarely overturned; it's usually <em>shifted, tightened, or made more confident.</em> The job of the analysis is to do this shift well — to bring the decision-maker's intuition into closer correspondence with reality.</p>
+    <p><strong>It narrows the option set.</strong> Often the most useful output of an analysis is not <em>do this,</em> but <em>don't do that.</em> Eliminating two of four options is genuine value even if the analysis can't choose between the remaining two.</p>
+    <p><strong>It makes the assumptions visible.</strong> The most respected analysts I've worked with are not the ones who deliver the most confident conclusions. They're the ones who can articulate, precisely, what assumptions their analysis depends on — and where it would break. That clarity is what makes the analysis safe to act on.</p>
+
+    <h2>The <em>uncomfortable</em> craft</h2>
+    <p>The uncomfortable part of analytics under uncertainty is that the answer is sometimes <em>we cannot know.</em> Not <em>I need more time</em> or <em>let me pull more data,</em> but a substantive claim that the available evidence does not adjudicate between the live hypotheses.</p>
+    <p>This is harder than it sounds. The decision-maker is paying for an answer, the analyst feels the pressure to deliver one, and the analysis can almost always be massaged to produce something. Producing a confident-sounding answer when the data doesn't support one is the most common analytical failure mode I've watched up close.</p>
+    <blockquote>The best analysts I've worked with are willing to say <em>I don't know</em> in ways that protect the decision rather than abdicate it.</blockquote>
+    <p>That last clause matters. Saying "I don't know" is easy. Saying "I don't know, here's what we'd need to find out, and here's what I'd do in the meantime given what we do know" — that takes craft. It respects the decision-maker's need to act while protecting them from acting on phantom precision.</p>
+
+    <h2>What this asks of <em>analysts</em></h2>
+    <p>Operating well under uncertainty changes what an analyst optimizes for. The instinct to be right gets traded down a little, and the instinct to be <em>useful and honest</em> gets traded up.</p>
+    <p>Useful and honest, taken seriously, means: communicating uncertainty without hiding behind it; surfacing the assumptions that drive the conclusion; sizing the analysis to the decision rather than to the data; pushing back when the question being asked is the wrong one; and being willing to deliver less than the audience hoped for when that's what the evidence supports.</p>
+    <p>None of this is glamorous. It is what makes the analysis worth the time spent on it.</p>
+    <p>The decisions I've seen go best are the ones where the analyst and the decision-maker were honest with each other about what was known, what wasn't, and what the trade-offs were. The decisions I've seen go worst are the ones where someone — analyst or decision-maker — pretended uncertainty wasn't there.</p>
+    <p>The job, then, is not to eliminate uncertainty from decisions. The job is to make sure the uncertainty that remains is the kind a thoughtful decision-maker can hold honestly, and act on anyway.</p>
+  </article>
+
+  <div class="post-footer">
+    <div class="signoff">N.N.</div>
+    <div class="post-meta-footer">Carnegie Mellon · Tepper School of Business</div>
+  </div>
+
+  <section class="read-next">
+    <div class="read-next-label">Read next</div>
+    <a href="post-data-to-judgment.html" class="read-next-link">
+      <h3>From Data <em>to Judgment</em></h3>
+    </a>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-row">
+      <div>© 2026 Natasha Niranjan</div>
+      <div>Pittsburgh, PA</div>
+      <div><a href="index.html" style="color: var(--ink-mute); text-decoration: none;">Back to home →</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const progress = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const max = document.body.scrollHeight - window.innerHeight;
+  const pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+  progress.style.width = pct + '%';
+});
+</script>
 
 </body>
 </html>
