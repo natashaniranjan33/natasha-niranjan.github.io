@@ -1,63 +1,326 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI as a Force Multiplier | Natasha Niranjan</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: Inter, sans-serif;
-      background: #0b0614;
-      color: #ede9fe;
-      line-height: 1.75;
-      padding: 3rem 1.5rem;
-    }
-    article {
-      max-width: 720px;
-      margin: auto;
-    }
-    h1 {
-      font-size: 2.6rem;
-      margin-bottom: 0.5rem;
-      background: linear-gradient(135deg, #ede9fe, #a78bfa);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .meta {
-      color: #c4b5fd;
-      font-size: 0.9rem;
-      margin-bottom: 2.5rem;
-    }
-    a {
-      color: #a78bfa;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI as a Force Multiplier — Natasha Niranjan</title>
+<meta name="description" content="On treating AI as leverage for human judgment rather than a replacement for it." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #f5f1ea; --paper-2: #ede7dc; --ink: #1a1d2b; --ink-soft: #2e3247;
+  --ink-mute: #5b6079; --rule: #c9c1b1; --ember: #c8451f; --highlight: rgba(200, 69, 31, 0.08);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Fraunces', Georgia, serif; font-variation-settings: 'opsz' 14;
+  background: var(--paper); color: var(--ink);
+  font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 1;
+  background-image:
+    radial-gradient(at 15% 12%, rgba(184,138,58,0.05) 0%, transparent 40%),
+    radial-gradient(at 85% 75%, rgba(200,69,31,0.04) 0%, transparent 45%);
+}
+body::after {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 2;
+  opacity: 0.35; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='3'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.4 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.7'/></svg>");
+}
+.progress-rule {
+  position: fixed; top: 0; left: 0; height: 2px;
+  background: var(--ember); width: 0%; z-index: 60;
+  transition: width 0.08s linear;
+}
+.marginal {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute);
+  background: linear-gradient(180deg, var(--paper) 80%, transparent); pointer-events: none;
+}
+.marginal > * { pointer-events: auto; }
+.marginal a { color: var(--ink-mute); text-decoration: none; transition: color 0.2s; }
+.marginal a:hover { color: var(--ember); }
+
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 2.5rem; position: relative; z-index: 3; }
+.article-wrap { max-width: 760px; margin: 0 auto; padding: 0 2.5rem; position: relative; z-index: 3; }
+
+.back-link {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink-mute); text-decoration: none;
+  margin-top: 6rem; margin-bottom: 3rem;
+  transition: color 0.2s, transform 0.2s;
+}
+.back-link:hover { color: var(--ember); transform: translateX(-4px); }
+
+.post-header {
+  padding: 0 0 3rem;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 3.5rem;
+}
+.post-kicker {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ember); margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.post-kicker::before {
+  content: ''; width: 24px; height: 1px; background: var(--ember);
+}
+.post-header h1 {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 144, 'wght' 400;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  line-height: 1.05; letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+}
+.post-header h1 em {
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  color: var(--ember); font-weight: 400;
+}
+.post-deck {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 24, 'wght' 350;
+  font-size: 1.3rem; line-height: 1.5;
+  color: var(--ink-soft); margin-bottom: 2rem;
+  max-width: 38rem;
+}
+.post-deck em {
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  color: var(--ember);
+}
+.post-byline {
+  display: flex; gap: 1.5rem; flex-wrap: wrap;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.article-body {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 14, 'wght' 400;
+  font-size: 1.12rem; line-height: 1.78;
+  color: var(--ink-soft); padding-bottom: 4rem;
+}
+
+.article-body > p:first-of-type::first-line {
+  font-variation-settings: 'opsz' 24, 'wght' 500;
+  letter-spacing: 0.02em;
+}
+
+.article-body p { margin-bottom: 1.5rem; }
+.article-body p strong {
+  font-variation-settings: 'wght' 600;
+  color: var(--ink);
+}
+.article-body em {
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  color: var(--ember);
+}
+.article-body h2 {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 72, 'wght' 500;
+  font-size: 1.7rem; line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 3.5rem 0 1.2rem;
+  position: relative;
+}
+.article-body h2 em {
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  color: var(--ember); font-weight: 400;
+}
+.article-body h2::before {
+  content: ''; display: block; width: 40px; height: 1px;
+  background: var(--ember); margin-bottom: 1rem;
+}
+.article-body blockquote {
+  margin: 2rem 0; padding: 0.5rem 0 0.5rem 1.8rem;
+  border-left: 3px solid var(--ember);
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  font-size: 1.35rem; line-height: 1.5;
+  color: var(--ink);
+}
+.article-body ul {
+  list-style: none; padding: 0;
+  margin: 1.5rem 0;
+}
+.article-body ul li {
+  padding: 0.6rem 0 0.6rem 1.8rem;
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+}
+.article-body ul li:last-child { border-bottom: none; }
+.article-body ul li::before {
+  content: '→'; position: absolute; left: 0; top: 0.65rem;
+  font-family: 'Instrument Serif', serif; font-size: 1.2rem;
+  color: var(--ember); line-height: 1;
+}
+
+.post-footer {
+  padding: 3.5rem 0 2rem;
+  border-top: 1px solid var(--rule);
+}
+.signoff {
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  font-size: 1.4rem; color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+.signoff::before {
+  content: '— '; color: var(--ember);
+}
+.post-meta-footer {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.read-next {
+  padding: 4rem 0 6rem;
+}
+.read-next-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ember); margin-bottom: 1rem;
+}
+.read-next-link {
+  display: block; text-decoration: none; color: var(--ink);
+  padding: 2rem 0; border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  transition: padding-left 0.3s ease, background 0.3s ease;
+}
+.read-next-link:hover {
+  padding-left: 1.5rem; background: var(--highlight);
+}
+.read-next-link h3 {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 72, 'wght' 500;
+  font-size: 1.6rem; line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+.read-next-link h3 em {
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  color: var(--ember); font-weight: 400;
+}
+
+footer {
+  border-top: 1px solid var(--rule);
+  padding: 2.5rem 0;
+}
+.footer-row {
+  display: flex; justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-mute); flex-wrap: wrap; gap: 1rem;
+}
+
+@media (max-width: 860px) {
+  .article-wrap, .wrap { padding: 0 1.5rem; }
+  .marginal { padding: 1rem 1.5rem; font-size: 0.65rem; }
+  .back-link { margin-top: 5rem; margin-bottom: 2rem; }
+  .article-body { font-size: 1.05rem; }
+  .article-body h2 { font-size: 1.4rem; margin: 2.5rem 0 1rem; }
+  .article-body blockquote { font-size: 1.15rem; padding-left: 1.2rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; }
+}
+::selection { background: var(--ember); color: var(--paper); }
+</style>
 </head>
 <body>
 
-<article>
-  <a href="index.html">← Back to home</a>
+<div class="progress-rule" id="progress"></div>
 
-  <h1>AI as a Force Multiplier</h1>
-  <div class="meta">Reflections on human-centered AI value</div>
+<div class="marginal">
+  <div><a href="index.html">Natasha Niranjan</a></div>
+  <div>Essay · 01 of 03</div>
+</div>
 
-  <p>
-    Write your essay here. This is where you can go deeper into ideas around
-    AI as a productivity amplifier, decision support system, and complement
-    to human judgment.
-  </p>
+<div class="article-wrap">
 
-  <p>
-    Keep paragraphs short, reflective, and analytical. This format works
-    beautifully for academic and professional readers.
-  </p>
-</article>
+  <a href="index.html#writing" class="back-link">← Back to writing</a>
+
+  <header class="post-header">
+    <div class="post-kicker">Essay · Applied AI · Judgment</div>
+    <h1>AI as a <em>force multiplier,</em> not a replacement.</h1>
+    <p class="post-deck">The most useful framing for AI in business analytics is not <em>does it replace the analyst,</em> but <em>which parts of the work does it amplify, and which does it quietly degrade if you let it.</em></p>
+    <div class="post-byline">
+      <div>By Natasha Niranjan</div>
+      <div>Essay · 2026</div>
+      <div>6 min read</div>
+    </div>
+  </header>
+
+  <article class="article-body">
+    <p>Every conversation about AI in business analytics seems to start in the wrong place. The framing on offer is binary — either AI replaces analysts, or it doesn't. Either it transforms knowledge work, or it's another hype cycle. Either you're early, or you're late.</p>
+    <p>None of these is the actual question. The actual question is more granular and considerably more useful: <strong>which parts of analytical work does AI genuinely amplify, and which parts does it silently degrade when you assume it can do them?</strong></p>
+    <p>I've spent the last three years building data pipelines and analytics products at Deloitte, and the last year at Carnegie Mellon studying applied AI in earnest. The pattern I keep seeing — in coursework, in client work, in my own projects — is that AI works best as <em>leverage on top of judgment</em>, and worst as <em>a substitute for it.</em></p>
+
+    <h2>Where AI <em>actually</em> multiplies</h2>
+    <p>The work AI is genuinely good at is the work that previously consumed a disproportionate share of an analyst's time without producing proportional insight.</p>
+    <p><strong>Exploration scale.</strong> Pulling apart an unfamiliar dataset, generating hypotheses, drafting initial joins and aggregations — this used to take a half-day of careful work and now takes an afternoon of collaborative iteration with a capable model. The analyst still owns the questions and the validation; the model accelerates the surface area of what gets examined.</p>
+    <p><strong>The documentation tax.</strong> Every pipeline, model, and dashboard accrues a documentation debt that most teams never repay. Models that can read code and write clear human-readable documentation collapse a real chunk of that debt — not perfectly, but well enough to be net positive.</p>
+    <p><strong>Translation across audiences.</strong> The same analytical finding has to be reframed three or four times for different stakeholders. Models are quietly excellent at the mechanical part of this work — letting the analyst spend more energy on what matters: <em>what to actually say.</em></p>
+
+    <h2>Where AI <em>quietly</em> degrades the work</h2>
+    <p>The harder pattern to see is where AI seems to be helping, and is actually making the analysis worse. Three categories worth naming.</p>
+    <p><strong>The judgment-flattening problem.</strong> AI tends to produce a confident, plausible answer to almost any question. That's helpful when the question is straightforward and the data is clean. It's actively dangerous when the right answer involves saying <em>we don't have enough information to know,</em> or <em>this dataset has a known bias that invalidates that comparison.</em> An analyst's most valuable judgment is often a careful no; models are not built to deliver careful nos.</p>
+    <p><strong>The plausibility-without-grounding problem.</strong> A model will happily generate SQL that runs, returns numbers, and looks correct — and is subtly wrong about the business logic in ways that only someone who actually understands the domain will catch. The same risk exists with summaries, recommendations, and modeling choices. The output looks like work; verifying whether it <em>is</em> work requires exactly the expertise the AI was supposed to be substituting for.</p>
+    <p><strong>The atrophy problem.</strong> Skills you don't use, you lose. An analyst who stops writing SQL because the model writes it faster loses, over time, the fluency that lets them catch when the model is wrong. The leverage AI provides quietly trades against the muscle that makes the analyst valuable in the first place.</p>
+
+    <h2>The <em>shape</em> of useful adoption</h2>
+    <p>The teams I've seen use AI well share a particular discipline. They treat it as a tool that amplifies the human in the loop, not as a system that operates without one.</p>
+    <p>That sounds like a banal framing. In practice, it is hard. It means resisting the pull of using AI for the parts of the work it can do convincingly but unreliably — the parts where the analyst's value is precisely in the judgment the model is replacing. It means investing in evaluation, in grounding, in keeping the human attention where it matters.</p>
+    <blockquote>AI is a force multiplier in the literal sense: it multiplies whatever was there. Multiply careful judgment by a good model and you get faster, sharper analysis. Multiply careless judgment by the same model and you get faster, sharper bad analysis.</blockquote>
+    <p>That second case is the trap. The output is so plausible, and arrives so quickly, that it can pass through three layers of review before anyone notices what's missing. The discipline of using AI well isn't about how much you use it. It's about <em>where</em> you choose to spend your own attention — and protecting that attention from the seductive idea that the model has things covered.</p>
+
+    <h2>What it asks of analysts</h2>
+    <p>For analysts, the practical implication is uncomfortable but clear. The work shifts from <em>producing</em> to <em>orchestrating and verifying</em> — and the value moves up the stack toward the parts of the work AI cannot do.</p>
+    <p>Those parts, mercifully, are still the ones that matter most. Asking the right question. Recognizing when the data doesn't answer the question being asked. Understanding the business context that makes one analysis useful and another irrelevant. Communicating a finding in a way that earns a decision. Building the trust that makes a stakeholder willing to act on the analysis at all.</p>
+    <p>These are not skills AI can substitute for. They are the skills AI most rewards when paired with — and most punishes when allowed to atrophy.</p>
+    <p>So the framing I find most useful, both in my own work and in the conversations I have with people thinking about this: <em>treat AI as the most capable collaborator you've ever had, who happens to need careful supervision on the things that matter most.</em> The work doesn't get smaller. It gets sharper.</p>
+  </article>
+
+  <div class="post-footer">
+    <div class="signoff">N.N.</div>
+    <div class="post-meta-footer">Carnegie Mellon · Tepper School of Business</div>
+  </div>
+
+  <section class="read-next">
+    <div class="read-next-label">Read next</div>
+    <a href="post-decision-uncertainty.html" class="read-next-link">
+      <h3>Decision-Making <em>Under Uncertainty</em></h3>
+    </a>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-row">
+      <div>© 2026 Natasha Niranjan</div>
+      <div>Pittsburgh, PA</div>
+      <div><a href="index.html" style="color: var(--ink-mute); text-decoration: none;">Back to home →</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const progress = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const max = document.body.scrollHeight - window.innerHeight;
+  const pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+  progress.style.width = pct + '%';
+});
+</script>
 
 </body>
 </html>
